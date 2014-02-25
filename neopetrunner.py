@@ -1,14 +1,3 @@
-#-------------------------------------------------------------------------------
-# Name:        module1
-# Purpose:
-#
-# Author:      Davis
-#
-# Created:     10-12-2013
-# Copyright:   (c) Davis 2013
-# Licence:     <your licence>
-#-------------------------------------------------------------------------------
-
 import time, random, sys
 import urllib, urllib2
 import mechanize
@@ -77,6 +66,7 @@ def oneclickdailies():
     print "Running dailies"
     snowager()
     #adventcalendar()
+    buriedtreasure()
     randomize()
     tombola()
     randomize()

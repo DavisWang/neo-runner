@@ -3,10 +3,16 @@ import urllib, urllib2
 import mechanize
 from bs4 import BeautifulSoup
 
+"""TODO: do method for getting neopoints
+do auto food club betting/collecting
+refactor/clean up code
+"""
+
 b = mechanize.Browser()
 
 def init():
     b.addheaders = [('User-agent', 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36')]
+
 
 def login():
     print "Logging in"
@@ -81,6 +87,8 @@ def oneclickdailies():
     jelly()
     randomize()
     bankinterest()
+    foodclubodds()
+    monthlyfreebies()
 
 def buriedtreasure():
     print "Running buried treasure"
@@ -180,6 +188,7 @@ def adventcalendar():
         b.submit()
     except Exception:
         print "Some error has occurred!"
+
 def getpetstats(name):
     #pretty bad implementation, but it does the job, may cause issues later on
     b.open("http://www.neopets.com/island/training.phtml?type=status")
@@ -330,51 +339,51 @@ def foodclubodds():
     print 'Done processing food club odds'
 
 
-print 'Welcome to the Neopets Runner!'
-print 'Number of arguments:', len(sys.argv), 'arguments.'
-print 'Argument List:', str(sys.argv)
+def main():
+    print 'Welcome to the Neopets Runner!'
+    print 'Number of arguments:', len(sys.argv), 'arguments.'
+    print 'Argument List:', str(sys.argv)
 
-if len(sys.argv) == 4 or len(sys.argv) == 5:
-    init()
-    login()
+    if len(sys.argv) == 4 or len(sys.argv) == 5:
+        init()
+        login()
 
-    if len(sys.argv) == 4:
-        #a for all, d for dailies only, b for buy stock
-        #format python neopetrunner.py [a|d|b] or any combo
-        if 'a' in sys.argv[3]:
-            oneclickdailies()
-            buyStock()
-            foodclubodds()
-        else:
-            if 'd' in sys.argv[3]:
+        if len(sys.argv) == 4:
+            #a for all, d for dailies only, b for buy stock
+            #format python neopetrunner.py [a|d|b] or any combo
+            if 'a' in sys.argv[3]:
                 oneclickdailies()
-            if 'b' in sys.argv[3]:
                 buyStock()
-            if 'fc' in sys.argv[3]:
                 foodclubodds()
             else:
-                print "Please use proper parameters!"
+                if 'd' in sys.argv[3]:
+                    oneclickdailies()
+                if 'b' in sys.argv[3]:
+                    buyStock()
+                if 'fc' in sys.argv[3]:
+                    foodclubodds()
+                else:
+                    print "Please use proper parameters!"
 
-    #options at the moment, only trainpet, format: python neopetrunner.py train <petName>
-    elif len(sys.argv) == 5:
-        assert sys.argv[3] == 'train' or 'all' or 'lab'
-        assert sys.argv[4] == 'X_Avon_X' #let's stick with this for now
+        #options at the moment, only trainpet, format: python neopetrunner.py train <petName>
+        elif len(sys.argv) == 5:
+            assert sys.argv[3] == 'train' or 'all' or 'lab'
+            # assert sys.argv[4] == 'X_Avon_X' #let's stick with this for now
 
-        if sys.argv[3].lower() == 'train':
-            trainpet(sys.argv[4])
-        elif sys.argv[3].lower() == 'lab':
-            zappet(sys.argv[4])
-        elif sys.argv[3].lower() == 'all':
-            oneclickdailies()
-            buyStock()
-            zappet(sys.argv[4])
-            trainpet(sys.argv[4])
+            if sys.argv[3].lower() == 'train':
+                trainpet(sys.argv[4])
+            elif sys.argv[3].lower() == 'lab':
+                zappet(sys.argv[4])
+            elif sys.argv[3].lower() == 'all':
+                oneclickdailies()
+                buyStock()
+                zappet(sys.argv[4])
+                trainpet(sys.argv[4])
+    else:
+        print "Please use proper parameters!"
 
+    print 'Done'
 
-else:
-    print "Please use proper parameters!"
-
-print 'Done'
-
-
+if __name__ == '__main__':
+    main()
 

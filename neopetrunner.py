@@ -338,6 +338,13 @@ def foodclubodds():
         oddsum=0.0
     print 'Done processing food club odds'
 
+#should save the previous url as this will go to the inventory
+def getNPs():
+    b.open('http://www.neopets.com/inventory.phtml')
+    soup = BeautifulSoup(b.response().read())
+    # print soup.find(id="npanchor").string
+    return int(soup.find(id="npanchor").string.replace(",",""))
+
 
 def main():
     print 'Welcome to the Neopets Runner!'
@@ -347,6 +354,7 @@ def main():
     if len(sys.argv) == 4 or len(sys.argv) == 5:
         init()
         login()
+        print "You have", getNPs(), "NPs"
 
         if len(sys.argv) == 4:
             #a for all, d for dailies only, b for buy stock
@@ -379,11 +387,21 @@ def main():
                 buyStock()
                 zappet(sys.argv[4])
                 trainpet(sys.argv[4])
+
+        print "You have", getNPs(), "NPs"
     else:
         print "Please use proper parameters!"
 
     print 'Done'
 
+def test():
+    init()
+    login()
+    b.open('http://www.neopets.com/inventory.phtml')
+    # print b.response().read()
+    print "you have", getNPs(), "NPs"
+
 if __name__ == '__main__':
     main()
+    # test()
 
